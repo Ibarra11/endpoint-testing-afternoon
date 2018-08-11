@@ -1,0 +1,588 @@
+{
+	"info": {
+		"_postman_id": "79d45b1d-22e8-4348-84ba-910a87ed67c1",
+		"name": "Endpoint Testing Afternoon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET - All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2449ca24-d328-4d8e-a4eb-5ea392dc382f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Should have response status of 200', () =>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('The returned data should be an array', () =>{",
+							"    pm.expect(Array.isArray(pm.response.json())).to.be.true;",
+							"});",
+							"",
+							"pm.test('Data has a length of 100', () =>{",
+							"    pm.expect(pm.response.json().length).to.eql(100);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - User by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "899b554f-8e34-40bd-b2fc-bb9e7c799b3f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Should have a response status of 200', () =>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('The returend data is an array with lenght of 1', () =>{",
+							"    pm.expect(Array.isArray(pm.response.json())).to.be.true;",
+							"    pm.expect(pm.response.json().length).to.eql(1);",
+							"});",
+							"",
+							"pm.test('The returned data should have the following values', () =>{",
+							"    let obj = {",
+							"        id: 9,",
+							"        first_name: \"Tatum\",",
+							"        last_name: 'Vell',",
+							"        email: \"tvell8@wisc.edu\",",
+							"        city: \"Youngstown\",",
+							"        state: \"Ohio\",",
+							"        phone: \"(330) 6802507\"",
+							"    };",
+							"    pm.expect(pm.response.json()[0].id).to.eql(obj.id);",
+							"    pm.expect(pm.response.json()[0].first_name).to.eql(obj.first_name);",
+							"    pm.expect(pm.response.json()[0].last_name).to.eql(obj.last_name);",
+							"    pm.expect(pm.response.json()[0].email).to.eql(obj.email);",
+							"    pm.expect(pm.response.json()[0].city).to.eql(obj.city);",
+							"    pm.expect(pm.response.json()[0].state).to.eql(obj.state);",
+							"    pm.expect(pm.response.json()[0].phone).to.eql(obj.phone);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3535/api/users/9",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - User by ID ( error )",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c4b38b9c-cf3d-4277-8ddc-ea20972d209e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Status code should be 400', () =>{",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test('Returned message is User id sent must be a number', () =>{",
+							"   pm.response.to.have.body(\"User id sent must be a number\");",
+							"})",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3535/api/users/id",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users",
+						"id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - User with Query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "daa5a735-e79f-475e-8a05-ccf0519290a8",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Status code should be 200', () =>{",
+							"   pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Data set has a lenght greater than 0', () =>{",
+							"    let dataLength = pm.response.json().length;",
+							"    pm.expect(dataLength > 0 ? true: false ).to.eql(true);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users?firstName=t",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "firstName",
+							"value": "t"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - User with Query ( error )",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0dbe5df-8e4b-4311-8f92-3d2ea3dfd208",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"status code is 400\", () =>{",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"returned message is Imporoper query sent in request: citty=new york\", () =>{",
+							"   pm.response.to.have.body('Improper query sent in request: citty=new york');",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users?citty=new york",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "citty",
+							"value": "new york"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - Update user by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d68a2a9e-8baf-47a4-9a84-06d63ce313e2",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Status code should be 200', () =>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Returned dataset is an array of length 1', () =>{",
+							"    pm.expect(pm.response.json().length === 1).to.eql(true);",
+							"});",
+							"",
+							"pm.test('Update user has the following properties', () =>{",
+							"    let {email, city} = pm.response.json()[0];",
+							"    pm.expect(email).to.eql('garey@ilovecode.com');",
+							"    pm.expect(city).to.eql('Pittsburg');",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"garey@ilovecode.com\",\n\t\"city\": \"Pittsburg\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users/23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - Update user by ID ( error )",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f3f19ed4-2c2f-475f-905c-bd0c8a2ac42c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Status code is 400', () =>{",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"The returned message is Error with user ID in requrest\", () =>{",
+							"    pm.response.to.have.body('Error with user ID in request.');",
+							"   ",
+							"})",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"garey@ilovecode.com\",\n\t\"city\": \"Pittsburg\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users/userId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users",
+						"userId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2bbf0011-ef98-4ed2-807a-046db070cbbc",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"",
+							"",
+							"",
+							"pm.test('Status code should be 200', () =>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"pm.test('The returned dataset has a lengh of 1', () =>{",
+							"    pm.expect(response.length === 1).to.eql(true);",
+							"});",
+							"",
+							"let {id, first_name, last_name, email, city, state, phone} = response[0];",
+							"",
+							"pm.test('The returned user\\' first name is Bruce', () =>{",
+							"    pm.expect(first_name).to.eql('Bruce');",
+							"});",
+							"",
+							"pm.test('The returned user\\' last name is wayne', () =>{",
+							"    pm.expect(last_name).to.eql('Wayne');",
+							"});",
+							"",
+							"pm.test('The users email should equal bruce@carybat.com', () =>{",
+							"    pm.expect(email).to.eql('bruce@scarybat.com');",
+							"});",
+							"",
+							"pm.test('The users city should equal Gotham', () =>{",
+							"    pm.expect(city).to.eql('Gotham');",
+							"});",
+							"",
+							"pm.test('The users state should equal New Jersey', () =>{",
+							"    pm.expect(state).to.eql('New Jersey');",
+							"});",
+							"",
+							"pm.test('The users phone should equal (856) 6044252', () =>{",
+							"    pm.expect(phone).to.eql('(856) 6044252');",
+							"});",
+							"",
+							"pm.test('The returned user has an id prop that is eqal to 0', () =>{",
+							"    pm.expect(typeof id === 'number').to.be.true;",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\": \"Bruce\",\n\t\"last_name\": \"Wayne\",\n\t\"email\": \"bruce@scarybat.com\",\n\t\"city\": \"Gotham\",\n\t\"state\": \"New Jersey\",\n\t\"phone\": \"(856) 6044252\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Create user ( error )",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "81e2db4a-67a3-4d83-b52f-7ca19fd3fb7c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Response status is 400', () =>{",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test('Returned mesage was ALl needed infro was not sent in the body of the request', () =>{",
+							"   pm.expect(pm.response.text()).to.eql('All needed user info was not sent in the body of request.')",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\": \"Bruce\",\n\t\"last_name\": \"Wayne\",\n\t\"email\": \"bruce@scarybat.com\",\n\t\"state\": \"New Jersey\",\n\t\"phone\": \"(856) 6044252\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - Remove user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "34a71520-1983-49cb-ae72-9047e82fbd57",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('resposne status should be 200', () =>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('The users deleted should have an id of 66', () =>{",
+							"    pm.expect(pm.response.json()[0].id).to.eql(66);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\": \"Bruce\",\n\t\"last_name\": \"Wayne\",\n\t\"email\": \"bruce@scarybat.com\",\n\t\"city\": \"Gotham\",\n\t\"state\": \"New Jersey\",\n\t\"phone\": \"(856) 6044252\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users/66",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users",
+						"66"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - Remove user ( error )",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bcfc71e1-e90e-4299-89b6-388e8ba14c94",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Status code is 404', () =>{",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test('Returned message is no user with an id of 508', () =>{",
+							"    pm.response.to.have.body('No user with an ID of 508.');",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\": \"Bruce\",\n\t\"last_name\": \"Wayne\",\n\t\"email\": \"bruce@scarybat.com\",\n\t\"city\": \"Gotham\",\n\t\"state\": \"New Jersey\",\n\t\"phone\": \"(856) 6044252\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3535/api/users/508",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3535",
+					"path": [
+						"api",
+						"users",
+						"508"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
